@@ -18,7 +18,7 @@ export default async function BaseCards() {
         <Link
           key={base.id}
           href={`/base/${base.id}`}
-          className="border rounded-xl p-6 shadow-sm hover:shadow-md transition bg-white"
+          className="rounded-xl p-6 shadow-sm hover:shadow-md transition bg-white"
         >
           <h2 className="text-xl font-semibold">{base.base_name}</h2>
           <p className="text-sm text-gray-500 mt-2">
