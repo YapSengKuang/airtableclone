@@ -1,7 +1,14 @@
 import { getBaseById } from "~/server/queries/getBaseById";
+import { getTablesByBaseId } from "~/server/queries/getTablesByBaseId";
+import  CreateTableButton  from "~/app/_components/CreateTableButton";
 
 export default async function BasePage({ params }: { params: { id: string } }) {
   const base = await getBaseById(params.id);
+  const tables = await getTablesByBaseId(params.id);
+  console.log("tables:");
+  console.log(tables);
+  const nextTableNumber = tables.length + 1;
+
 
   return (
     <main className="p-10">
@@ -17,6 +24,7 @@ export default async function BasePage({ params }: { params: { id: string } }) {
           Base ID: <span className="font-mono">{base.id}</span>
         </p>
       </div>
+      <CreateTableButton baseId={base.id} nextTableNumber={tables.length + 1} />
     </main>
   );
 }

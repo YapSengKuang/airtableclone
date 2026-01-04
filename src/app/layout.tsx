@@ -12,7 +12,7 @@ import {
 import { Geist, Geist_Mono } from 'next/font/google'
 import "~/styles/globals.css";
 import { TRPCReactProvider } from '~/trpc/react';
-import SideBarMenu from './_components/SideBarMenu';
+
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
