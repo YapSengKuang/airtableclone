@@ -24,9 +24,16 @@ export default async function Home() {
         </div>
       ))
       } */}
-
-        <BaseCards />
-        <CreateBaseButton/>
+        <div className="p-13">
+          <h1>Home</h1>
+          <BaseCards />
+          <div className="pt-5">
+            <CreateBaseButton/>
+          </div>
+          
+        </div>
+        
+        
       
     </div>
   );

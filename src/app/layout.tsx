@@ -12,6 +12,7 @@ import {
 import { Geist, Geist_Mono } from 'next/font/google'
 import "~/styles/globals.css";
 import { TRPCReactProvider } from '~/trpc/react';
+import SideBarMenu from './_components/SideBarMenu';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -39,7 +40,13 @@ export default function RootLayout({
         <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
           <TRPCReactProvider>
             <header className="flex justify-between items-center p-4 gap-4 h-16 bg-white border-b-1 border-b-gray-200">
-                <h1>Airtable</h1>
+                <div>
+                  
+
+                
+                  <h1>Airtable</h1>
+                </div>
+                
                 <SignedOut>
                   {/*show user when not signed in*/}
                   <SignInButton />
