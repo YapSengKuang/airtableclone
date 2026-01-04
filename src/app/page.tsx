@@ -5,7 +5,8 @@ import { api } from "~/trpc/server";
 export default async function Home() {
     const { userId } = await auth();
     const user = await currentUser();
-    const { data } = await api.base.getAll()
+    const data = await api.base.getAll();
+
     console.log("Auth Data:", userId);
     console.log("Current User:", user);
 
