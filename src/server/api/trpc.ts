@@ -26,8 +26,13 @@ import { db } from "~/server/db";
  *
  * @see https://trpc.io/docs/server/context
  */
-export const createTRPCContext = (opts: { headers: Headers }) => {
-  const { userId, sessionId } = auth();
+export const createTRPCContext = async (opts: { headers: Headers }) => {
+  // Works with BOTH Clerk versions
+  const authResult = await auth();
+
+  const userId = authResult.userId ?? null;
+  const sessionId = authResult.sessionId ?? null;
+
   return {
     db,
     userId,
