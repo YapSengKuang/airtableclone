@@ -2,6 +2,7 @@
 import { auth, currentUser } from "@clerk/nextjs/server";
 import { api } from "~/trpc/server";
 import BaseCards from "./_components/BaseCard";
+import CreateBaseButton from "./_components/CreateBaseButton";
 
 export default async function Home() {
     const { userId } = await auth();
@@ -25,6 +26,7 @@ export default async function Home() {
       } */}
 
         <BaseCards />
+        <CreateBaseButton/>
       
     </div>
   );
