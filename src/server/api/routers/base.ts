@@ -1,3 +1,4 @@
+import { TRPCError } from "node_modules/@trpc/server/dist/index.cjs";
 import { z } from "zod";
 
 import {
@@ -29,6 +30,8 @@ export const baseRouter = createTRPCRouter({
             }
         );
     }),
+
+    // to create a new base
     create: protectedProcedure
         .input(
             z.object({
@@ -44,7 +47,23 @@ export const baseRouter = createTRPCRouter({
             });
             return newBase;
         }
-        )
+        ),
+    getById: protectedProcedure
+        .input(z.object({ id: z.string() }))
+        .query(async ({ ctx, input }) => {
+            const base = await ctx.db.base.findFirst({
+            where: {
+                id: input.id,
+                user_id: ctx.userId, // ensure user owns it
+            },
+        });
+            if (!base) {
+            throw new TRPCError({ code: "NOT_FOUND" });
+            }
+
+            return base;
+        }),
+
     
 
 });
