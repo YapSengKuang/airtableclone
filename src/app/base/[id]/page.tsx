@@ -5,7 +5,7 @@ import  CreateTableButton  from "~/app/_components/CreateTableButton";
 export default async function BasePage(
     props: {
         params: Promise<{ id: string }>;
-        searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+        searchParams: Record<string, string | string[] | undefined>;
     }
 ){
     const params = await props.params;
@@ -30,7 +30,7 @@ export default async function BasePage(
             Base ID: <span className="font-mono">{base.id}</span>
             </p>
         </div>
-        <CreateTableButton baseId={base.id} nextTableNumber={tables.length + 1} />
+        <CreateTableButton baseId={base.id} nextTableNumber={nextTableNumber} />
         </main>
     );
 }

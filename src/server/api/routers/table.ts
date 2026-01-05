@@ -1,11 +1,11 @@
-import { get } from "http";
+
 import { TRPCError } from "node_modules/@trpc/server/dist/index.cjs";
 import { z } from "zod";
 
 import {
   createTRPCRouter,
   protectedProcedure,
-  publicProcedure,
+
 } from "~/server/api/trpc";
 
 export const tableRouter = createTRPCRouter({
