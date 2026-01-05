@@ -2,16 +2,19 @@
 
 import { useState } from "react";
 import TableTabs from "./TableTabs";
+import CreateTableButton from "./CreateTableButton";
 
 export default function TableView({
   tables,
+  baseId
 }: {
-  tables: {
-    id: string;
-    table_name: string;
-    fields: any[];
-    rows: any[];
-  }[];
+    baseId: string;
+    tables: {
+        id: string;
+        table_name: string;
+        fields: any[];
+        rows: any[];
+    }[];
 }) {
   const [activeId, setActiveId] = useState(tables[0]?.id);
 
@@ -20,6 +23,7 @@ export default function TableView({
   return (
     <div>
       <TableTabs tables={tables} onSelect={setActiveId} />
+      <CreateTableButton baseId={baseId} nextTableNumber={tables.length + 1} />
 
       <div className="mt-6">
         {activeTable ? (
