@@ -7,4 +7,15 @@ import "./src/env.js";
 /** @type {import("next").NextConfig} */
 const config = {};
 
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  experimental: {
+    typedRoutes: false,
+  },
+};
+
+module.exports = nextConfig;
+
+
 export default config;
+
