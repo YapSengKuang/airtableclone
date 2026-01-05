@@ -10,58 +10,50 @@ import {
 
 export const tableRouter = createTRPCRouter({
    
-   // to get tables by base ID
     getByBaseId: protectedProcedure
-  .input(z.object({ id: z.string() }))
-  .query(async ({ ctx, input }) => {
-    let tables = await ctx.db.table.findMany({
-      where: {
-        base_id: input.id,
-      },
-      orderBy: {
-        table_name: "asc",
-      },
-      include: {
-        fields: true, // include all fields
-        rows: {
-          include: {
-            cells: {
-              include: {
-                field: true, // include field info for each cell
-              },
-            },
-          },
-        },
-      },
-    });
-
-    if (!tables || tables.length === 0) {
-        const newTable = await ctx.db.table.create({
-            data: {
-            base_id: input.id,
-            table_name: "Table 1",
-            },
-        });
-    
-        // Re-fetch including relations
-        tables = await ctx.db.table.findMany({
+        .input(z.object({ id: z.string() }))
+        .query(async ({ ctx, input }) => {
+            let tables = await ctx.db.table.findMany({
             where: { base_id: input.id },
             orderBy: { table_name: "asc" },
             include: {
                 fields: true,
-                rows: {
-                    include: {
-                        cells: {
-                            include: { field: true },
-                        },
-                    },
-                },
+                rows: true,
             },
-        });
-}
+            });
 
-    return tables;
-  }),
+            // If no tables exist, create one and re-fetch
+            if (tables.length === 0) {
+                await ctx.db.table.create({
+                    data: {
+                    base_id: input.id,
+                    table_name: "Table 1",
+                    },
+                });
+
+                tables = await ctx.db.table.findMany({
+                    where: { base_id: input.id },
+                    include: { fields: true, rows: true },
+                });
+            }
+
+            // Fetch all cells for all rows in all tables
+            const rows = tables.flatMap((t) => t.rows);
+            const rowIds = rows.map((r) => r.id);
+
+            const cells = await ctx.db.cell.findMany({
+                where: { row_id: { in: rowIds } },
+            });
+
+            // Normalize return shape
+            return tables.map((t) => ({
+                ...t,
+                cells: cells.filter((c) =>
+                    t.rows.some((r) => r.id === c.row_id)
+                ),
+            }));
+        }),
+
 
     // to create a new table
     create: protectedProcedure
