@@ -2,12 +2,13 @@ import { getBaseById } from "~/server/queries/getBaseById";
 import { getTablesByBaseId } from "~/server/queries/getTablesByBaseId";
 import  CreateTableButton  from "~/app/_components/CreateTableButton";
 
+
+console.log("In base page");
 export default async function BasePage({
   params,
-  searchParams,
+
 }: {
   params: { id: string };
-  searchParams: Record<string, string | string[] | undefined>;
 }) {
 
 
