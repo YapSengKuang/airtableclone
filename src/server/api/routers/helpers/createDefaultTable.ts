@@ -46,11 +46,12 @@ export async function createDefaultTable(
 
   // 4. Create default cells
   await db.cell.createMany({
-    data: fields.map((f) => ({
-      field_id: f.id,
-      row_id: row.id,
-      value: "",
+    data: fields.map((f: { id: string }) => ({
+        field_id: f.id,
+        row_id: row.id,
+        value: "",
     })),
+
   });
 
   return table;
