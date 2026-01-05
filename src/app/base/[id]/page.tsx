@@ -11,6 +11,7 @@ export default async function BasePage({
 }) {
   const base = await getBaseById(params.id);
   const tables = await getTablesByBaseId(params.id);
+  console.log("tables in base page", tables);
 
   const nextTableNumber = tables.length + 1;
 

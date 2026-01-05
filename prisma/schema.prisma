@@ -1,69 +1,55 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
-    provider = "prisma-client-js"
-    output   = "../generated/prisma"
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
 }
 
 datasource db {
-    provider = "postgresql"
-    // NOTE: When using mysql or sqlserver, uncomment the @db.Text annotations in model Account below
-    // Further reading:
-    // https://next-auth.js.org/adapters/prisma#create-the-prisma-schema
-    // https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#string
-    url      = env("DATABASE_URL")
-    relationMode = "prisma"
+  provider     = "postgresql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
 }
 
-// my code for airtable clone
-
 model Base {
-  id         String   @id @default(cuid())
-  base_name  String   @default("default base")
-  user_id    String
-
-  tables     Table[]
+  id        String  @id @default(cuid())
+  base_name String  @default("default base")
+  user_id   String
+  tables    Table[]
 }
 
 model Table {
-  id          String   @id @default(cuid())
-  base_id     String
-  table_name  String
-
-  base        Base     @relation(fields: [base_id], references: [id])
-  fields      Field[]
-  rows        Row[]
+  id         String  @id @default(cuid())
+  base_id    String
+  table_name String
+  base       Base    @relation(fields: [base_id], references: [id])
+  fields     Field[]
+  rows       Row[]
 }
 
 model Field {
-  id          String   @id @default(cuid())
+  id          String @id @default(cuid())
   table_id    String
   name        String
   type        String
   options     Json
   order_index Int
-
-  table       Table    @relation(fields: [table_id], references: [id])
+  table       Table  @relation(fields: [table_id], references: [id])
   cells       Cell[]
 }
 
 model Row {
-  id        String   @id @default(cuid())
-  table_id  String
-
-  table     Table    @relation(fields: [table_id], references: [id])
-  cells     Cell[]
+  id       String @id @default(cuid())
+  table_id String
+  table    Table  @relation(fields: [table_id], references: [id])
+  cells    Cell[]
 }
 
 model Cell {
-  id        String   @id @default(cuid())
-  field_id  String
-  row_id    String
-  value     Json
-
-  field     Field    @relation(fields: [field_id], references: [id])
-  row       Row      @relation(fields: [row_id], references: [id])
+  id       String @id @default(cuid())
+  field_id String
+  row_id   String
+  value    Json
+  field    Field  @relation(fields: [field_id], references: [id])
+  row      Row    @relation(fields: [row_id], references: [id])
 }
 
 enum FieldType {
@@ -79,5 +65,3 @@ enum FieldType {
   rollup
   attachment
 }
-
-

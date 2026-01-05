@@ -206,6 +206,7 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
+  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
@@ -214,8 +215,8 @@ const config = {
       }
     }
   },
-  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider     = \"postgresql\"\n  // NOTE: When using mysql or sqlserver, uncomment the @db.Text annotations in model Account below\n  // Further reading:\n  // https://next-auth.js.org/adapters/prisma#create-the-prisma-schema\n  // https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#string\n  url          = env(\"DATABASE_URL\")\n  relationMode = \"prisma\"\n}\n\n// my code for airtable clone\n\nmodel Base {\n  id        String @id @default(cuid())\n  base_name String @default(\"default base\")\n  user_id   String\n\n  tables Table[]\n}\n\nmodel Table {\n  id         String @id @default(cuid())\n  base_id    String\n  table_name String\n\n  base   Base    @relation(fields: [base_id], references: [id])\n  fields Field[]\n  rows   Row[]\n}\n\nmodel Field {\n  id          String @id @default(cuid())\n  table_id    String\n  name        String\n  type        String\n  options     Json\n  order_index Int\n\n  table Table  @relation(fields: [table_id], references: [id])\n  cells Cell[]\n}\n\nmodel Row {\n  id       String @id @default(cuid())\n  table_id String\n\n  table Table  @relation(fields: [table_id], references: [id])\n  cells Cell[]\n}\n\nmodel Cell {\n  id       String @id @default(cuid())\n  field_id String\n  row_id   String\n  value    Json\n\n  field Field @relation(fields: [field_id], references: [id])\n  row   Row   @relation(fields: [row_id], references: [id])\n}\n\nenum FieldType {\n  text\n  number\n  date\n  checkbox\n  single_select\n  multi_select\n  link\n  formula\n  lookup\n  rollup\n  attachment\n}\n",
-  "inlineSchemaHash": "5c42e0d34d9db9fbb615c8a6814638e244aefe1fd34a1068399253310b6eac05",
+  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider     = \"postgresql\"\n  url          = env(\"DATABASE_URL\")\n  relationMode = \"prisma\"\n}\n\nmodel Base {\n  id        String  @id @default(cuid())\n  base_name String  @default(\"default base\")\n  user_id   String\n  tables    Table[]\n}\n\nmodel Table {\n  id         String  @id @default(cuid())\n  base_id    String\n  table_name String\n  base       Base    @relation(fields: [base_id], references: [id])\n  fields     Field[]\n  rows       Row[]\n}\n\nmodel Field {\n  id          String @id @default(cuid())\n  table_id    String\n  name        String\n  type        String\n  options     Json\n  order_index Int\n  table       Table  @relation(fields: [table_id], references: [id])\n  cells       Cell[]\n}\n\nmodel Row {\n  id       String @id @default(cuid())\n  table_id String\n  table    Table  @relation(fields: [table_id], references: [id])\n  cells    Cell[]\n}\n\nmodel Cell {\n  id       String @id @default(cuid())\n  field_id String\n  row_id   String\n  value    Json\n  field    Field  @relation(fields: [field_id], references: [id])\n  row      Row    @relation(fields: [row_id], references: [id])\n}\n\nenum FieldType {\n  text\n  number\n  date\n  checkbox\n  single_select\n  multi_select\n  link\n  formula\n  lookup\n  rollup\n  attachment\n}\n",
+  "inlineSchemaHash": "ec6e91ae78f98476577d0011c798b0b092c61b49ac0c25f5c00a95ba67024d93",
   "copyEngine": true
 }
 
