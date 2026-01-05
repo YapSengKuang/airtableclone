@@ -1,0 +1,6 @@
+{
+  "typescript": {
+    "ignoreBuildErrors": false,
+    "disableAutoTypeScriptConfiguration": true
+  }
+}
