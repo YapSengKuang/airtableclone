@@ -2,13 +2,12 @@ import { getBaseById } from "~/server/queries/getBaseById";
 import { getTablesByBaseId } from "~/server/queries/getTablesByBaseId";
 import  CreateTableButton  from "~/app/_components/CreateTableButton";
 
-export default async function BasePage(
-    props: {
-        params: Promise<{ id: string }>;
-        searchParams: Record<string, string | string[] | undefined>;
-    }
-){
-    const params = await props.params;
+export default async function BasePage({
+    params,
+    searchParams,
+}: PageProps<{ id: string }>) {
+    
+
     const base = await getBaseById(params.id);
     const tables = await getTablesByBaseId(params.id);
     console.log("tables:");
