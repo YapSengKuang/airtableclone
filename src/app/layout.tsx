@@ -12,6 +12,7 @@ import {
 import { Geist, Geist_Mono } from 'next/font/google'
 import "~/styles/globals.css";
 import { TRPCReactProvider } from '~/trpc/react';
+import Link from 'next/link';
 
 
 const geistSans = Geist({
@@ -44,7 +45,9 @@ export default function RootLayout({
                   
 
                 
-                  <h1>Airtable</h1>
+                  <Link href="/" className="text-2xl font-bold text-gray-800">
+                    Airtable
+                  </Link>
                 </div>
                 
                 <SignedOut>
