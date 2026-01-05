@@ -127,7 +127,8 @@ export default function DataGrid({
                         <EditableCell
                             value={cell.getValue()}
                             onChange={(v) => cell.column.columnDef.meta?.update(cell, v)}
-                        />
+                            type={cell.column.columnDef.meta?.type || "text"}
+                        />  
 
 
                     </div>
