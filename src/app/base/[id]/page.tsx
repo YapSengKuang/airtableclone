@@ -1,19 +1,15 @@
-console.log("builing clean file")
-
 import { getBaseById } from "~/server/queries/getBaseById";
 import { getTablesByBaseId } from "~/server/queries/getTablesByBaseId";
 import CreateTableButton from "~/app/_components/CreateTableButton";
 
-export default async function BasePage({
-  params,
-}: {
-  params: { id: string };
-}) {
-  const base = await getBaseById(params.id);
-  const tables = await getTablesByBaseId(params.id);
-  console.log("tables in base page", tables);
+export default async function BasePage(props: PageProps<"/base/[id]">) {
+  const { id } = await props.params;
+
+  const base = await getBaseById(id);
+  const tables = await getTablesByBaseId(id);
 
   const nextTableNumber = tables.length + 1;
+  console.log("Tables in base:", tables);
 
   return (
     <main className="p-10">
