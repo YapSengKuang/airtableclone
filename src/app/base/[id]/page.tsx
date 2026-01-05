@@ -14,7 +14,7 @@ export default async function BasePage(props: PageProps<"/base/[id]">) {
       <h1 className="text-3xl font-bold mb-6">{base.base_name}</h1>
       
       {/* Airtable-style table view */}
-      <TableView tables={tables} baseId={base.id} />
+      <TableView baseId={base.id} />
     </main>
   );
 }
