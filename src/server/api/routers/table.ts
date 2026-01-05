@@ -14,7 +14,7 @@ export const tableRouter = createTRPCRouter({
     getByBaseId: protectedProcedure
   .input(z.object({ id: z.string() }))
   .query(async ({ ctx, input }) => {
-    const tables = await ctx.db.table.findMany({
+    let tables = await ctx.db.table.findMany({
       where: {
         base_id: input.id,
       },
@@ -36,11 +36,29 @@ export const tableRouter = createTRPCRouter({
     });
 
     if (!tables || tables.length === 0) {
-      throw new TRPCError({
-        code: "NOT_FOUND",
-        message: `No tables found for base ID ${input.id}`,
-      });
-    }
+        const newTable = await ctx.db.table.create({
+            data: {
+            base_id: input.id,
+            table_name: "Table 1",
+            },
+        });
+    
+        // Re-fetch including relations
+        tables = await ctx.db.table.findMany({
+            where: { base_id: input.id },
+            orderBy: { table_name: "asc" },
+            include: {
+                fields: true,
+                rows: {
+                    include: {
+                        cells: {
+                            include: { field: true },
+                        },
+                    },
+                },
+            },
+        });
+}
 
     return tables;
   }),
