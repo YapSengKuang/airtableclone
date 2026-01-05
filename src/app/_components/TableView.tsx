@@ -3,6 +3,9 @@
 import { useState } from "react";
 import TableTabs from "./TableTabs";
 import CreateTableButton from "./CreateTableButton";
+import DataGrid from "./DataGrid";
+import { api  } from "~/trpc/react";
+import React from "react";
 
 export default function TableView({
   tables,
@@ -30,23 +33,45 @@ export default function TableView({
     const rows = activeTable.rows;
     const cells = activeTable.cells ?? []; // in case it's undefined
 
-    const columns = fields.map(field => ({ 
-        id: field.id, 
-        header: field.name, 
-        accessorFn: (row: Record<string, any>) => row[field.id], 
-    }));
+    const updateCellMutation = api.cell.update.useMutation();
 
-    const rowData = rows.map(
-        row => { 
-            const rowObj: Record<string, any> = { id: row.id }; 
-            cells 
-                .filter((c: any) => c.row_id === row.id) 
-                .forEach((c: any) => { rowObj[c.field_id] = c.value; }); 
-            return rowObj ; 
-        }
-    );
-    console.log("Row Data:", rowData); // Debugging line
-    console.log("Columns:", columns); // Debugging line 
+
+    const columns = React.useMemo(() => {
+        return fields.map((field: any) => ({
+            id: field.id,
+            header: field.name,
+            accessorFn: (row: Record<string, any>) => row[field.id],
+            meta: {
+            type: field.type,
+            update: (cell: any, value: any) => {
+                updateCellMutation.mutate({
+                cellId: cell.row.original.__cellIds[field.id],
+                value,
+                });
+            },
+            },
+        }));
+    }, [fields]);
+
+
+
+    const rowData = React.useMemo(() => {
+        return rows.map((row: any) => {
+            const rowObj: Record<string, any> = { id: row.id, __cellIds: {} };
+
+            cells
+            .filter((c: any) => c.row_id === row.id)
+            .forEach((c: any) => {
+                rowObj[c.field_id] = c.value;
+                rowObj.__cellIds[c.field_id] = c.id;
+            });
+
+            return rowObj;
+        });
+    }, [rows, cells]);
+
+
+
 
 
     return (
@@ -56,7 +81,7 @@ export default function TableView({
 
         <div className="mt-6">
             {activeTable ? (
-            <div className="p-4 border rounded-lg bg-white shadow-sm">
+            <div className="p-4 rounded-lg bg-white shadow-sm">
                 <h2 className="text-xl font-semibold mb-4">
                 {activeTable.table_name}
                 </h2>
@@ -66,6 +91,8 @@ export default function TableView({
                 {JSON.stringify(activeTable, null, 2)}
                 </pre> */}
 
+
+                <DataGrid data={rowData} columns={columns} />
 
             </div>
             ) : (
