@@ -38,13 +38,13 @@
     }
   },
   "include": [
-    "**/*.cjs",
-    "**/*.js",
+    "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "next-env.d.ts",
-    ".next/types/**/*.ts"
+    "**/*.cjs",
+    "**/*.js"
   ],
+
   "exclude": [
     "node_modules",
     "generated"
