@@ -3,10 +3,14 @@ import { getTablesByBaseId } from "~/server/queries/getTablesByBaseId";
 import  CreateTableButton  from "~/app/_components/CreateTableButton";
 
 export default async function BasePage({
-    params,
-    searchParams,
-}: PageProps<{ id: string }>) {
-    
+  params,
+  searchParams,
+}: {
+  params: { id: string };
+  searchParams: Record<string, string | string[] | undefined>;
+}) {
+
+
 
     const base = await getBaseById(params.id);
     const tables = await getTablesByBaseId(params.id);
