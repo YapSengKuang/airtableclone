@@ -1,11 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import TableTabs from "./TableTabs";
 import CreateTableButton from "./CreateTableButton";
 import DataGrid from "./DataGrid";
 import { api } from "~/trpc/react";
-import React from "react";
+import type { RouterOutputs } from "~/trpc/react";
+
+type Table = RouterOutputs["table"]["getByBaseId"][number];
 
 export default function TableView({ baseId }: { baseId: string }) {
   const { data: tables } = api.table.getByBaseId.useQuery({ id: baseId });
@@ -14,28 +16,32 @@ export default function TableView({ baseId }: { baseId: string }) {
 
   const updateCellMutation = api.cell.update.useMutation({
     onSuccess: () => {
-      utils.table.getByBaseId.invalidate({ id: baseId });
+      void utils.table.getByBaseId.invalidate({ id: baseId });
     },
   });
 
   const [activeId, setActiveId] = useState<string | null>(null);
 
-  // Always compute these, even if tables is undefined
-  const activeTable =
-    tables?.find((t) => t.id === (activeId ?? tables?.[0]?.id)) ?? null;
+  const activeTable: Table | null =
+    tables?.find((t) => t.id === (activeId ?? tables[0]?.id)) ?? null;
 
   const fields = activeTable?.fields ?? [];
   const rows = activeTable?.rows ?? [];
   const cells = activeTable?.cells ?? [];
 
-  const columns = React.useMemo(() => {
-    return fields.map((field: any) => ({
+  const columns = useMemo(() => {
+    return fields.map((field) => ({
       id: field.id,
       header: field.name,
-      accessorFn: (row: Record<string, any>) => row[field.id],
+      accessorFn: (row: Record<string, unknown>) => row[field.id],
       meta: {
         type: field.type,
-        update: (cell: any, value: any) => {
+        update: (
+          cell: {
+            row: { original: { __cellIds: Record<string, string> } };
+          },
+          value: unknown
+        ) => {
           updateCellMutation.mutate({
             cellId: cell.row.original.__cellIds[field.id],
             value,
@@ -43,15 +49,17 @@ export default function TableView({ baseId }: { baseId: string }) {
         },
       },
     }));
-  }, [fields]);
+  }, [fields, updateCellMutation]);
 
-  const rowData = React.useMemo(() => {
-    return rows.map((row: any) => {
-      const rowObj: Record<string, any> = { id: row.id, __cellIds: {} };
+  const rowData = useMemo(() => {
+    return rows.map((row) => {
+      const rowObj: Record<string, unknown> & {
+        __cellIds: Record<string, string>;
+      } = { id: row.id, __cellIds: {} };
 
       cells
-        .filter((c: any) => c.row_id === row.id)
-        .forEach((c: any) => {
+        .filter((c) => c.row_id === row.id)
+        .forEach((c) => {
           rowObj[c.field_id] = c.value;
           rowObj.__cellIds[c.field_id] = c.id;
         });
@@ -60,7 +68,6 @@ export default function TableView({ baseId }: { baseId: string }) {
     });
   }, [rows, cells]);
 
-  // Render AFTER all hooks
   if (!tables) return <p>Loading...</p>;
   if (!activeTable) return <p>No table selected.</p>;
 

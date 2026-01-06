@@ -121,7 +121,7 @@ export default function DataGrid<TData>({
                       className="px-3 py-2 border-r min-w-[150px] hover:bg-gray-50"
                     >
                       <EditableCell
-                        value={cell.getValue() as unknown}
+                        value = {cell.getValue()}
                         onChange={(v) => {
                           const updateFn = meta?.update;
                           if (updateFn) updateFn(cell, v);
