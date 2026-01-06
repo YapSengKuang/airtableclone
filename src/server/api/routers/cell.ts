@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
-import type { InputJsonValue } from "generated/prisma/runtime/library";
+import type { InputJsonValue } from "@prisma/client/runtime/library";
 
 export const cellRouter = createTRPCRouter({
   update: protectedProcedure
