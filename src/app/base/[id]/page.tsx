@@ -1,4 +1,4 @@
-import TableTabs from "~/app/_components/TableTabs";
+//import TableTabs from "~/app/_components/TableTabs";
 import TableView from "~/app/_components/TableView";
 import { getBaseById } from "~/server/queries/getBaseById";
 import { getTablesByBaseId } from "~/server/queries/getTablesByBaseId";

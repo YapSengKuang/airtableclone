@@ -1,7 +1,7 @@
-
+import type { PrismaClient } from "generated/prisma";
 
 export async function createDefaultTable(
-  db: any,
+  db: PrismaClient,
   baseId: string,
   tableName: string
 ) {
@@ -33,7 +33,7 @@ export async function createDefaultTable(
     ],
   });
 
-  const fields = await db.field.findMany({
+  const fields: { id: string }[] = await db.field.findMany({
     where: { table_id: table.id },
   });
 
@@ -46,7 +46,7 @@ export async function createDefaultTable(
 
   // 4. Create default cells
   await db.cell.createMany({
-    data: fields.map((f: { id: string }) => ({
+    data: fields.map((f) => ({
         field_id: f.id,
         row_id: row.id,
         value: "",

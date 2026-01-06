@@ -1,6 +1,7 @@
 
 import { z } from "zod";
 import { createDefaultTable } from "./helpers/createDefaultTable";
+import type {Table, Field, Row, Cell} from "generated/prisma";
 
 import {
   createTRPCRouter,
@@ -12,13 +13,16 @@ export const tableRouter = createTRPCRouter({
    
     getByBaseId: protectedProcedure
         .input(z.object({ id: z.string() }))
-        .query(async ({ ctx, input }) => {
-            let tables = await ctx.db.table.findMany({
-            where: { base_id: input.id },
-            orderBy: { table_name: "asc" },
-            include: {
-                fields: true,
-                rows: true,
+        .query(async ({ ctx, input }): Promise<
+            Array<Table & { fields: Field[]; rows: Row[]; cells: Cell[] }>
+            > => {
+
+                let tables = await ctx.db.table.findMany({
+                where: { base_id: input.id },
+                orderBy: { table_name: "asc" },
+                include: {
+                    fields: true,
+                    rows: true,
             },
             });
 
