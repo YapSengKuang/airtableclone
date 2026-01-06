@@ -47,7 +47,7 @@ export default function TableView({ baseId }: { baseId: string }) {
 
         updateCellMutation.mutate({
           cellId,
-          value,
+          value: String(value),
         });
       },
     },

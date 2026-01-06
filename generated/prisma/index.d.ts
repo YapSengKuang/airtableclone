@@ -5283,12 +5283,14 @@ export namespace Prisma {
     id: string | null
     field_id: string | null
     row_id: string | null
+    value: string | null
   }
 
   export type CellMaxAggregateOutputType = {
     id: string | null
     field_id: string | null
     row_id: string | null
+    value: string | null
   }
 
   export type CellCountAggregateOutputType = {
@@ -5304,12 +5306,14 @@ export namespace Prisma {
     id?: true
     field_id?: true
     row_id?: true
+    value?: true
   }
 
   export type CellMaxAggregateInputType = {
     id?: true
     field_id?: true
     row_id?: true
+    value?: true
   }
 
   export type CellCountAggregateInputType = {
@@ -5396,7 +5400,7 @@ export namespace Prisma {
     id: string
     field_id: string
     row_id: string
-    value: JsonValue
+    value: string
     _count: CellCountAggregateOutputType | null
     _min: CellMinAggregateOutputType | null
     _max: CellMaxAggregateOutputType | null
@@ -5460,7 +5464,7 @@ export namespace Prisma {
       id: string
       field_id: string
       row_id: string
-      value: Prisma.JsonValue
+      value: string
     }, ExtArgs["result"]["cell"]>
     composites: {}
   }
@@ -5886,7 +5890,7 @@ export namespace Prisma {
     readonly id: FieldRef<"Cell", 'String'>
     readonly field_id: FieldRef<"Cell", 'String'>
     readonly row_id: FieldRef<"Cell", 'String'>
-    readonly value: FieldRef<"Cell", 'Json'>
+    readonly value: FieldRef<"Cell", 'String'>
   }
     
 
@@ -6581,7 +6585,7 @@ export namespace Prisma {
     id?: StringFilter<"Cell"> | string
     field_id?: StringFilter<"Cell"> | string
     row_id?: StringFilter<"Cell"> | string
-    value?: JsonFilter<"Cell">
+    value?: StringFilter<"Cell"> | string
     field?: XOR<FieldRelationFilter, FieldWhereInput>
     row?: XOR<RowRelationFilter, RowWhereInput>
   }
@@ -6602,7 +6606,7 @@ export namespace Prisma {
     NOT?: CellWhereInput | CellWhereInput[]
     field_id?: StringFilter<"Cell"> | string
     row_id?: StringFilter<"Cell"> | string
-    value?: JsonFilter<"Cell">
+    value?: StringFilter<"Cell"> | string
     field?: XOR<FieldRelationFilter, FieldWhereInput>
     row?: XOR<RowRelationFilter, RowWhereInput>
   }, "id">
@@ -6624,7 +6628,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Cell"> | string
     field_id?: StringWithAggregatesFilter<"Cell"> | string
     row_id?: StringWithAggregatesFilter<"Cell"> | string
-    value?: JsonWithAggregatesFilter<"Cell">
+    value?: StringWithAggregatesFilter<"Cell"> | string
   }
 
   export type BaseCreateInput = {
@@ -6828,7 +6832,7 @@ export namespace Prisma {
 
   export type CellCreateInput = {
     id?: string
-    value: JsonNullValueInput | InputJsonValue
+    value: string
     field: FieldCreateNestedOneWithoutCellsInput
     row: RowCreateNestedOneWithoutCellsInput
   }
@@ -6837,12 +6841,12 @@ export namespace Prisma {
     id?: string
     field_id: string
     row_id: string
-    value: JsonNullValueInput | InputJsonValue
+    value: string
   }
 
   export type CellUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    value?: JsonNullValueInput | InputJsonValue
+    value?: StringFieldUpdateOperationsInput | string
     field?: FieldUpdateOneRequiredWithoutCellsNestedInput
     row?: RowUpdateOneRequiredWithoutCellsNestedInput
   }
@@ -6851,26 +6855,26 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     field_id?: StringFieldUpdateOperationsInput | string
     row_id?: StringFieldUpdateOperationsInput | string
-    value?: JsonNullValueInput | InputJsonValue
+    value?: StringFieldUpdateOperationsInput | string
   }
 
   export type CellCreateManyInput = {
     id?: string
     field_id: string
     row_id: string
-    value: JsonNullValueInput | InputJsonValue
+    value: string
   }
 
   export type CellUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    value?: JsonNullValueInput | InputJsonValue
+    value?: StringFieldUpdateOperationsInput | string
   }
 
   export type CellUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     field_id?: StringFieldUpdateOperationsInput | string
     row_id?: StringFieldUpdateOperationsInput | string
-    value?: JsonNullValueInput | InputJsonValue
+    value?: StringFieldUpdateOperationsInput | string
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -7135,12 +7139,14 @@ export namespace Prisma {
     id?: SortOrder
     field_id?: SortOrder
     row_id?: SortOrder
+    value?: SortOrder
   }
 
   export type CellMinOrderByAggregateInput = {
     id?: SortOrder
     field_id?: SortOrder
     row_id?: SortOrder
+    value?: SortOrder
   }
 
   export type TableCreateNestedManyWithoutBaseInput = {
@@ -7736,14 +7742,14 @@ export namespace Prisma {
 
   export type CellCreateWithoutFieldInput = {
     id?: string
-    value: JsonNullValueInput | InputJsonValue
+    value: string
     row: RowCreateNestedOneWithoutCellsInput
   }
 
   export type CellUncheckedCreateWithoutFieldInput = {
     id?: string
     row_id: string
-    value: JsonNullValueInput | InputJsonValue
+    value: string
   }
 
   export type CellCreateOrConnectWithoutFieldInput = {
@@ -7804,7 +7810,7 @@ export namespace Prisma {
     id?: StringFilter<"Cell"> | string
     field_id?: StringFilter<"Cell"> | string
     row_id?: StringFilter<"Cell"> | string
-    value?: JsonFilter<"Cell">
+    value?: StringFilter<"Cell"> | string
   }
 
   export type TableCreateWithoutRowsInput = {
@@ -7828,14 +7834,14 @@ export namespace Prisma {
 
   export type CellCreateWithoutRowInput = {
     id?: string
-    value: JsonNullValueInput | InputJsonValue
+    value: string
     field: FieldCreateNestedOneWithoutCellsInput
   }
 
   export type CellUncheckedCreateWithoutRowInput = {
     id?: string
     field_id: string
-    value: JsonNullValueInput | InputJsonValue
+    value: string
   }
 
   export type CellCreateOrConnectWithoutRowInput = {
@@ -8056,49 +8062,49 @@ export namespace Prisma {
   export type CellCreateManyFieldInput = {
     id?: string
     row_id: string
-    value: JsonNullValueInput | InputJsonValue
+    value: string
   }
 
   export type CellUpdateWithoutFieldInput = {
     id?: StringFieldUpdateOperationsInput | string
-    value?: JsonNullValueInput | InputJsonValue
+    value?: StringFieldUpdateOperationsInput | string
     row?: RowUpdateOneRequiredWithoutCellsNestedInput
   }
 
   export type CellUncheckedUpdateWithoutFieldInput = {
     id?: StringFieldUpdateOperationsInput | string
     row_id?: StringFieldUpdateOperationsInput | string
-    value?: JsonNullValueInput | InputJsonValue
+    value?: StringFieldUpdateOperationsInput | string
   }
 
   export type CellUncheckedUpdateManyWithoutFieldInput = {
     id?: StringFieldUpdateOperationsInput | string
     row_id?: StringFieldUpdateOperationsInput | string
-    value?: JsonNullValueInput | InputJsonValue
+    value?: StringFieldUpdateOperationsInput | string
   }
 
   export type CellCreateManyRowInput = {
     id?: string
     field_id: string
-    value: JsonNullValueInput | InputJsonValue
+    value: string
   }
 
   export type CellUpdateWithoutRowInput = {
     id?: StringFieldUpdateOperationsInput | string
-    value?: JsonNullValueInput | InputJsonValue
+    value?: StringFieldUpdateOperationsInput | string
     field?: FieldUpdateOneRequiredWithoutCellsNestedInput
   }
 
   export type CellUncheckedUpdateWithoutRowInput = {
     id?: StringFieldUpdateOperationsInput | string
     field_id?: StringFieldUpdateOperationsInput | string
-    value?: JsonNullValueInput | InputJsonValue
+    value?: StringFieldUpdateOperationsInput | string
   }
 
   export type CellUncheckedUpdateManyWithoutRowInput = {
     id?: StringFieldUpdateOperationsInput | string
     field_id?: StringFieldUpdateOperationsInput | string
-    value?: JsonNullValueInput | InputJsonValue
+    value?: StringFieldUpdateOperationsInput | string
   }
 
 

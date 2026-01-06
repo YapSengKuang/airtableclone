@@ -47,7 +47,7 @@ model Cell {
   id       String @id @default(cuid())
   field_id String
   row_id   String
-  value    Json
+  value    String
   field    Field  @relation(fields: [field_id], references: [id])
   row      Row    @relation(fields: [row_id], references: [id])
 }
