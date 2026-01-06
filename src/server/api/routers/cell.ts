@@ -19,7 +19,7 @@ export const cellRouter = createTRPCRouter({
     .input(
       z.object({
         cellId: z.string(),
-        value: z.any(),
+        value: json,
       })
     )
     .mutation(async ({ ctx, input }) => {
