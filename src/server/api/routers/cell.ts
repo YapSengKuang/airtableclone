@@ -7,14 +7,14 @@ export const cellRouter = createTRPCRouter({
     .input(
       z.object({
         cellId: z.string(),
-        value: z.string(),
+        value: z.union([z.string(), z.number(), z.null()]),
       })
     )
     .mutation(async ({ ctx, input }) => {
       return ctx.db.cell.update({
         where: { id: input.cellId },
         data: { 
-            value: input.value,
+            value: String(input.value),
         },
       });
     }),
