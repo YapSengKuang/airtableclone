@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
-import type { Prisma } from "@prisma/client";
+
 
 export const cellRouter = createTRPCRouter({
   update: protectedProcedure
@@ -14,7 +14,7 @@ export const cellRouter = createTRPCRouter({
       return ctx.db.cell.update({
         where: { id: input.cellId },
         data: { 
-            value: input.value as Prisma.JsonValue
+            value: input.value,
         },
       });
     }),
