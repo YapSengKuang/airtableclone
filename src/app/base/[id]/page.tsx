@@ -7,7 +7,7 @@ export default async function BasePage(props: PageProps<"/base/[id]">) {
   const { id } = await props.params;
 
   const base = await getBaseById(id);
-  const tables = await getTablesByBaseId(id);
+  //const tables = await getTablesByBaseId(id);
 
   return (
     <main className="p-10">
