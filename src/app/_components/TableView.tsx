@@ -30,26 +30,30 @@ export default function TableView({ baseId }: { baseId: string }) {
   const cells = activeTable?.cells ?? [];
 
   const columns = useMemo(() => {
-    return fields.map((field) => ({
-      id: field.id,
-      header: field.name,
-      accessorFn: (row: Record<string, unknown>) => row[field.id],
-      meta: {
-        type: field.type,
-        update: (
-          cell: {
-            row: { original: { __cellIds: Record<string, string> } };
-          },
-          value: unknown
-        ) => {
-          updateCellMutation.mutate({
-            cellId: cell.row.original.__cellIds[field.id],
-            value,
-          });
+  return fields.map((field) => ({
+    id: field.id,
+    header: field.name,
+    accessorFn: (row: Record<string, unknown>) => row[field.id],
+    meta: {
+      type: field.type as "text" | "number",
+      update: (
+        cell: {
+          row: { original: { __cellIds: Record<string, string | undefined> } };
         },
+        value: unknown
+      ) => {
+        const cellId = cell.row.original.__cellIds[field.id];
+        if (!cellId) return; // prevents undefined error
+
+        updateCellMutation.mutate({
+          cellId,
+          value,
+        });
       },
-    }));
-  }, [fields, updateCellMutation]);
+    },
+  }));
+}, [fields, updateCellMutation]);
+
 
   const rowData = useMemo(() => {
     return rows.map((row) => {
